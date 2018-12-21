@@ -1,0 +1,19 @@
+{
+
+  "manifest_version": 2,
+  "name": "LI Deep Dive Exporter",
+  "version": "1.0",
+
+  "description": "Exports LI Deep Dives to CSV",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://www.linkedin.com/recruiter/projects/*"],
+      "js": ["index.js"]
+    }
+  ]
+}

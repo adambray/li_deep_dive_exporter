@@ -34,11 +34,13 @@ function getShortLocation(location) {
 }
 
 async function buildRows() {
-    const names = Array.from($(".name a")).map(a => a.innerText);
-    const locations = Array.from($(".demographic dd:first-of-type")).map(a => a.innerText);
-    const headlines = Array.from($(".headline")).map(a => a.innerText);
-    const profilePromises = Array.from($(".name a")).map(a => a.href).map(getPublicProfile);
+    const names = Array.from(document.querySelectorAll(".name a")).map(a => a.innerText);
+    const locations = Array.from(document.querySelectorAll(".demographic dd:first-of-type")).map(a => a.innerText);
+    const headlines = Array.from(document.querySelectorAll(".headline")).map(a => a.innerText);
+
+    const profilePromises = Array.from(document.querySelectorAll(".name a")).map(a => a.href).map(getPublicProfile);
     const profiles = await Promise.all(profilePromises);
+
     return names.map((name, index) => {
         const role = headlines[index];
         const location = locations[index];
@@ -63,7 +65,7 @@ function buildLink(encodedUri) {
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", "li_dd.csv");
-    document.body.appendChild(link); // Required for FF
+    document.body.appendChild(link);
     return link;
 }
 
@@ -81,4 +83,12 @@ async function generateAndDownloadCSV() {
     link.click();
 }
 
-generateAndDownloadCSV();
+function init() {
+    const button = document.createElement("button");
+    button.classList.add("li-deep-dive");
+    button.innerText = "Export to CSV";
+    button.addEventListener("click", generateAndDownloadCSV);
+    document.body.appendChild(button)
+}
+
+init();
